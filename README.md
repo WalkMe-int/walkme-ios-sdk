@@ -1,0 +1,79 @@
+![WalkMe](https://console.mobile.walkme.com/images/walkme.png)
+
+# WalkMe iOS SDK
+
+The WalkMe Mobile SDK lets you deliver in-app guidance—walkthroughs, shoutouts, launchers, and more—without shipping new binaries for every content change.
+
+> **Beta:** This SDK is currently in beta.
+
+## Requirements
+
+- iOS **14.0** or later  
+- **Swift 5.0** or later  
+- **Xcode** with Swift Package Manager support  
+
+## Installation (Swift Package Manager)
+
+Add the package dependency in Xcode:
+
+1. **File → Add Package Dependencies…**
+2. Enter the repository URL: **https://github.com/WalkMe-int/walkme-ios-sdk**
+3. Choose the **WalkMe** product and add it to your app target.
+
+Releases are version-tagged on that repo; pick the version that matches your WalkMe Mobile account and integration notes.
+
+> **Note:** The distributed binary requires **Lottie** to be linked separately in the host app. If Xcode reports missing Lottie symbols, add [Lottie for iOS](https://github.com/airbnb/lottie-ios) to your target per your WalkMe integration checklist.
+
+## Public API (`WalkMeSDK`)
+
+The primary integration surface for the **WalkMe** framework is `WalkMeSDK` in `WalkMe/WalkMe/WalkMeSDK.swift`. It forwards to the player runtime (`WMPlayerManager`).
+
+| Method | Description |
+|--------|-------------|
+| `start(withGUID:options:)` | Starts the SDK with your WalkMe **GUID** and `WalkMeStartOptions`. **Preferred:** pass a configured `WalkMeStartOptions` instance (see below) rather than `nil`, so language, environment, and other startup settings are applied in one place. |
+| `stop()` | Stops the SDK. |
+| `setUserAttribute(key:value:)` | Sets a user attribute for targeting and segmentation. |
+| `setLanguage(_:)` | Changes the active language for WalkMe content. |
+
+All methods are exposed to **Objective-C** (`@objc`).
+
+**Integration preference:** Call `start(withGUID:options:)` with a `WalkMeStartOptions` object (typically from `WalkMeStartOptions.defaults` with your values set). That is the recommended path so identity, locale, environment, analytics, and storage are established at startup instead of relying on `nil` and follow-up calls alone.
+
+### Swift example
+
+```swift
+import WalkMe
+
+let options = WalkMeStartOptions.defaults()
+// Set other WalkMeStartOptions properties as required by your integration.
+
+WalkMeSDK.start(withGUID: "<your-guid>", options: options)
+```
+
+### Start options
+
+`WalkMeStartOptions` (Objective-C class, usable from Swift) configures startup behavior. Use `WalkMeStartOptions.defaults` and override properties as needed:
+
+| Property | Role |
+|----------|------|
+| `language` | Default language code |
+| `dataCenter` | Data center routing |
+| `environment` | Environment name |
+| `logsEnabled` | Verbose logging |
+| `analyticMode` | `WMAnalyticModeOFF` / `WMAnalyticModeON` |
+
+See `WalkMe/WalkMe/Common/Player/Public/WalkMeStartOptions.h` for full definitions.
+
+## Repository layout (contributors)
+
+- **WalkMe** — shipping SDK framework  
+- **WalkMeEditor** — in-app editor / power mode (separate product)  
+
+## Support
+
+- [WalkMe Help Center](https://support.walkme.com)  
+- Email: [support@walkme.com](mailto:support@walkme.com)  
+
+## License
+
+Commercial software. Use is subject to your agreement with WalkMe.
