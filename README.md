@@ -30,10 +30,12 @@ The primary integration surface for the **WalkMe** framework is `WalkMeSDK` in `
 
 | Method | Description |
 |--------|-------------|
-| `start(withGUID:options:)` | Starts the SDK with your WalkMe **GUID** and `WalkMeStartOptions`. **Preferred:** pass a configured `WalkMeStartOptions` instance (see below) rather than `nil`, so language, environment, and other startup settings are applied in one place. |
+| `start(withGUID:options:)` | Starts the SDK with your WalkMe **GUID** and `WalkMeStartOptions`. Use a configured instance—typically from `WalkMeStartOptions.defaults()`—so language, environment, and other startup settings are applied at launch. |
 | `stop()` | Stops the SDK. |
+| `setUserId(_:)` | Sets the end-user identifier for storage, analytics, and targeting. |
 | `setUserAttribute(key:value:)` | Sets a user attribute for targeting and segmentation. |
 | `setLanguage(_:)` | Changes the active language for WalkMe content. |
+| `sendEvent(name:attributes:)` | Sends a custom tracked event: `name` identifies the event; `attributes` is an optional dictionary of key/value data for analytics and WalkMe engagement reporting. |
 
 All methods are exposed to **Objective-C** (`@objc`).
 
@@ -56,18 +58,14 @@ WalkMeSDK.start(withGUID: "<your-guid>", options: options)
 
 | Property | Role |
 |----------|------|
+| `userId` | Optional end-user identifier applied when the SDK starts. |
 | `language` | Default language code |
-| `dataCenter` | Data center routing |
+| `walkMeDataCenter` | Data center |
 | `environment` | Environment name |
 | `logsEnabled` | Verbose logging |
 | `analyticMode` | `WMAnalyticModeOFF` / `WMAnalyticModeON` |
 
 See `WalkMe/WalkMe/Common/Player/Public/WalkMeStartOptions.h` for full definitions.
-
-## Repository layout (contributors)
-
-- **WalkMe** — shipping SDK framework  
-- **WalkMeEditor** — in-app editor / power mode (separate product)  
 
 ## Support
 
