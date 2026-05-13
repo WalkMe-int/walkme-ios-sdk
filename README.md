@@ -30,42 +30,41 @@ The primary integration surface for the **WalkMe** framework is `WalkMeSDK` in `
 
 | Method | Description |
 |--------|-------------|
-| `start(withGUID:options:)` | Starts the SDK with your WalkMe **GUID** and `WalkMeStartOptions`. Use a configured instance—typically from `WalkMeStartOptions.defaults()`—so language, environment, and other startup settings are applied at launch. |
+| `start(options:)` | Starts the SDK with a `WalkMeStartOptions` instance. Set your WalkMe **system GUID** via `WalkMeStartOptions(systemGuid:)` and configure language, environment, and other fields on that object before calling `start`. |
 | `stop()` | Stops the SDK. |
 | `setUserId(_:)` | Sets the end-user identifier for storage, analytics, and targeting. |
-| `setUserAttribute(key:value:)` | Sets a user attribute for targeting and segmentation. |
+| `setVariable(key:value:)` | Sets a variable for targeting and segmentation. |
 | `setLanguage(_:)` | Changes the active language for WalkMe content. |
 | `sendEvent(name:attributes:)` | Sends a custom tracked event: `name` identifies the event; `attributes` is an optional dictionary of key/value data for analytics and WalkMe engagement reporting. |
+| `setEventUserVars(_:)` | Sets string key/value pairs attached to events. Use `WalkMeEventUserVarsKey` for supported keys. See `WalkMe/WalkMe/Common/Player/Model/WalkMeEventUserVarsKey.swift`. |
 
-All methods are exposed to **Objective-C** (`@objc`).
-
-**Integration preference:** Call `start(withGUID:options:)` with a `WalkMeStartOptions` object (typically from `WalkMeStartOptions.defaults` with your values set). That is the recommended path so identity, locale, environment, analytics, and storage are established at startup instead of relying on `nil` and follow-up calls alone.
+**Integration:** Build a `WalkMeStartOptions` with `WalkMeStartOptions(systemGuid:)` and set properties (language, user id, data center, etc.) before calling `start(options:)`, so identity, language, environment, analytics, and storage are established at startup instead of relying on follow-up calls alone.
 
 ### Swift example
 
 ```swift
 import WalkMe
 
-let options = WalkMeStartOptions.defaults()
+let options = WalkMeStartOptions(systemGuid: "<your-guid>")
 // Set other WalkMeStartOptions properties as required by your integration.
 
-WalkMeSDK.start(withGUID: "<your-guid>", options: options)
+WalkMeSDK.start(options: options)
 ```
 
 ### Start options
 
-`WalkMeStartOptions` (Objective-C class, usable from Swift) configures startup behavior. Use `WalkMeStartOptions.defaults` and override properties as needed:
+`WalkMeStartOptions` configures startup behavior. Create it with `WalkMeStartOptions(systemGuid:)` (required WalkMe system GUID), then set optional fields as needed:
 
 | Property | Role |
 |----------|------|
+| `systemGuid` | WalkMe system GUID (set via initializer; immutable). |
 | `userId` | Optional end-user identifier applied when the SDK starts. |
-| `language` | Default language code |
-| `walkMeDataCenter` | Data center |
-| `environment` | Environment name |
-| `logsEnabled` | Verbose logging |
-| `analyticMode` | `WMAnalyticModeOFF` / `WMAnalyticModeON` |
+| `language` | Default language code. |
+| `dataCenter` | enum for which data center to use (e.g. production vs other areas). See `WalkMe/WalkMe/Common/Player/Public/WalkMeDataCenter.swift`. |
+| `environment` | Environment name. |
+| `analyticMode` | `WMAnalyticModeOFF` / `WMAnalyticModeON`. |
 
-See `WalkMe/WalkMe/Common/Player/Public/WalkMeStartOptions.h` for full definitions.
+See `WalkMe/WalkMe/Common/Player/Public/WalkMeStartOptions.swift` for full definitions.
 
 ## Support
 
