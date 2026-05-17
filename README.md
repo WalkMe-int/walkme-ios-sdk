@@ -4,8 +4,6 @@
 
 The WalkMe Mobile SDK lets you deliver in-app guidance—walkthroughs, shoutouts, launchers, and more—without shipping new binaries for every content change.
 
-> **Beta:** This SDK is currently in beta.
-
 ## Requirements
 
 - iOS **14.0** or later  
