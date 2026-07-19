@@ -41,6 +41,7 @@ The primary integration surface for the **WalkMe** framework is `WalkMeSDK` in `
 | `dismissItem()` | Dismisses the currently displayed item, if any. |
 | `setAnalyticsHandler(_:)` | Registers a callback invoked for every analytics event the SDK emits. Pass `nil` to remove. Prefer setting `analyticsHandler` on `WalkMeStartOptions` instead so the handler is active from the first event. |
 | `setItemCallbacksDelegate(_:)` | Registers a delegate to receive item lifecycle callbacks. Can also be set via `WalkMeStartOptions.itemCallbacksDelegate` before calling `start`. |
+| `setExternalBridgeDelegate(_:)` | Registers a `WMExternalBridgeInterface` bridge for external non-native UI frameworks (for example - Flutter). |
 
 **Integration:** Build a `WalkMeStartOptions` with `WalkMeStartOptions(systemGuid:)` and set properties (language, user id, data center, etc.) before calling `start(options:)`, so identity, language, environment, analytics, and storage are established at startup instead of relying on follow-up calls alone.
 
