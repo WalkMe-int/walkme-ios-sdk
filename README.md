@@ -6,7 +6,7 @@ The WalkMe Mobile SDK lets you deliver in-app guidance—walkthroughs, shoutouts
 
 ## Requirements
 
-- iOS **14.0** or later  
+- iOS **15.0** or later  
 - **Swift 5.0** or later  
 - **Xcode** with Swift Package Manager support  
 
